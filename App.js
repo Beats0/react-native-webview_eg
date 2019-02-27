@@ -4,7 +4,6 @@ import React, {
 import {
   Platform,
   TouchableOpacity,
-  Dimensions,
   BackHandler,
   View,
   Text,
@@ -15,17 +14,14 @@ import {
 import { WebView } from "react-native-webview";
 
 
-const ScreenWidth = Dimensions.get('window').width;
-
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.webView = null;
     this.state = {
-      flag: false,
-      isLogin: false,
       canGoBack: false,
       canGoForward: false,
+      isPrevent: false,
       url: '',
       status: '',
       loading: false,
@@ -43,10 +39,18 @@ export default class App extends Component {
   }
 
   handleBackPress = () => {
-    if (this.state.canGoBack) {
-      this.refWeb.goBack();
-    } else {
-      this.props.navigation.goBack(null)
+    const { canGoBack, isPrevent } = this.state
+    console.log(`canGoBack:${canGoBack}, isPrevent:${isPrevent}`)
+    // webview isPrevented
+    if (isPrevent) {
+      this.setState({
+        isPrevent: false
+      })
+      this._postMessage()
+    } else if (canGoBack && !isPrevent) { // webview can go back and not prevent
+      this.webView.goBack();
+    } else {    // webview can't go back, exit app
+      BackHandler.exitApp()
     }
     return true;
   }
@@ -62,30 +66,24 @@ export default class App extends Component {
     });
   }
 
-  _onShouldStartLoadWithRequest = (event) => {
-    // Implement any custom loading logic here, don't forget to return!
-    return true;
-  };
-
   // react native ======> webView 向html发送数据
-  _postMessage = () => {
-    this.webView.postMessage("react native ====> webView");
-    console.log('====>');
-    
+  _postMessage = (data = { isPrevent: false }) => {
+    this.webView.postMessage(JSON.stringify(data));
   }
 
   // react native <====== webview 接收HTML发出的数据
-  _onMessage(event) {
-    console.log("webview", event);
-    Alert.alert(event.nativeEvent.data)
+  _onMessage = (event) => {
+    let callBackData = JSON.parse(event.nativeEvent.data)
+    console.log(callBackData);
+    if (callBackData.isPrevent) {
+      this.setState({
+        isPrevent: callBackData.isPrevent
+      })
+    }
   }
 
   render() {
-    // let injectedJavaScript = `window.alert('this is injectedJavaScript')`
-  //   let injectedJavaScript = `document.getElementsByTagName('button')[0].addEventListener('click', function() {
-  //  window.alert('this is injectedJavaScript') });`
-
-   const injectedJavascript = `(function() {
+    const injectedJavascript = `(function() {
     window.postMessage = function(data) {
       window.ReactNativeWebView.postMessage(data);
     };
@@ -94,13 +92,16 @@ export default class App extends Component {
       <View
         style={ styles.box }>
         <WebView ref={ (webView) => this.webView = webView }
+                 originWhitelist={ ['*'] }
                  javaScriptEnabled={ true }
                  domStorageEnabled={ true }
-                 injectedJavaScript={ injectedJavascript }
+                //  injectedJavaScript={ injectedJavascript }
                  onNavigationStateChange={ this.onNavigationStateChange }
                  scrollEnabled={ false }
                  onMessage={ this._onMessage }
-                 source={ { uri: `http://192.168.10.44:3000/` } }
+                 source={ { uri: 'http://192.168.10.44:3000/' } }
+                 // source={ { uri: `https://youzan.github.io/vant/mobile.html#/zh-CN/` } }
+                 // source={Platform.OS === 'ios' ? require('./index.html') : {uri: 'file:///android_asset/index.html'}}
                  style={ {
                    width: '100%',
                    height: '50%'
@@ -108,7 +109,7 @@ export default class App extends Component {
         />
         <TouchableOpacity
           activeOpacity={ 0.5 }
-          onPress={ this._postMessage }
+          onPress={ () => this._postMessage() }
           style={ [{ backgroundColor: '#38acff', marginTop: 10, padding: 5, marginLeft: 5 }] }>
           <Text>rn to html</Text>
         </TouchableOpacity>
@@ -120,8 +121,5 @@ const styles = StyleSheet.create({
   box: {
     flex: 1,
     backgroundColor: '#f2f2f2',
-  },
-  container: {
-    width: ScreenWidth
   }
 });

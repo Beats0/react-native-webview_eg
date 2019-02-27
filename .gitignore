@@ -57,3 +57,5 @@ buck-out/
 
 # build
 android/app/build
+
+.vscode
