@@ -10,9 +10,9 @@ import {
   Text,
   StyleSheet,
   Alert,
-  WebView
+  // WebView
 } from 'react-native'
-// import { WebView } from "react-native-webview";
+import { WebView } from "react-native-webview";
 
 
 const ScreenWidth = Dimensions.get('window').width;
@@ -70,6 +70,8 @@ export default class App extends Component {
   // react native ======> webView 向html发送数据
   _postMessage = () => {
     this.webView.postMessage("react native ====> webView");
+    console.log('====>');
+    
   }
 
   // react native <====== webview 接收HTML发出的数据
@@ -80,19 +82,25 @@ export default class App extends Component {
 
   render() {
     // let injectedJavaScript = `window.alert('this is injectedJavaScript')`
-    let injectedJavaScript = `document.getElementsByTagName('button')[0].addEventListener('click', function() {
-   window.alert('this is injectedJavaScript') });`
+  //   let injectedJavaScript = `document.getElementsByTagName('button')[0].addEventListener('click', function() {
+  //  window.alert('this is injectedJavaScript') });`
+
+   const injectedJavascript = `(function() {
+    window.postMessage = function(data) {
+      window.ReactNativeWebView.postMessage(data);
+    };
+  })()`;
     return (
       <View
         style={ styles.box }>
         <WebView ref={ (webView) => this.webView = webView }
                  javaScriptEnabled={ true }
                  domStorageEnabled={ true }
-                 injectedJavaScript={ injectedJavaScript }
+                 injectedJavaScript={ injectedJavascript }
                  onNavigationStateChange={ this.onNavigationStateChange }
                  scrollEnabled={ false }
                  onMessage={ this._onMessage }
-                 source={ { uri: `https://youzan.github.io/vant/mobile#/zh-CN/` } }
+                 source={ { uri: `http://192.168.10.44:3000/` } }
                  style={ {
                    width: '100%',
                    height: '50%'

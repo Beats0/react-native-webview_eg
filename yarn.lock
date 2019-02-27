@@ -1469,7 +1469,7 @@ cosmiconfig@^5.0.5:
     lodash.get "^4.4.2"
     parse-json "^4.0.0"
 
-create-react-class@^15.6.0, create-react-class@^15.6.3:
+create-react-class@^15.6.3:
   version "15.6.3"
   resolved "http://registry.npm.taobao.org/create-react-class/download/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   integrity sha1-LXMjf7P5cK5uvgEanmb0bbyoADY=
@@ -1967,9 +1967,9 @@ fbjs-css-vars@^1.0.0:
   integrity sha1-IWVRE2rgL+JVkyw+yHdfGOLAeLg=
 
 fbjs-scripts@^1.0.0:
-  version "1.0.1"
-  resolved "http://registry.npm.taobao.org/fbjs-scripts/download/fbjs-scripts-1.0.1.tgz#7d8d09d76e83308bf3b1fc7b4c9c6fd081c5ef64"
-  integrity sha1-fY0J126DMIvzsfx7TJxv0IHF72Q=
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/fbjs-scripts/download/fbjs-scripts-1.1.0.tgz#d9e855aed19b572be9dfe39da70d8aece724eed9"
+  integrity sha1-2ehVrtGbVyvp3+Odpw2K7Ock7tk=
   dependencies:
     "@babel/core" "^7.0.0"
     ansi-colors "^1.0.1"
@@ -3171,9 +3171,9 @@ jest@24.1.0:
   integrity sha1-GSA/tZmR35jjoocFDUZHzerzJJk=
 
 js-yaml@^3.12.0, js-yaml@^3.9.0:
-  version "3.12.1"
-  resolved "http://registry.npm.taobao.org/js-yaml/download/js-yaml-3.12.1.tgz#295c8632a18a23e054cf5c9d3cecafe678167600"
-  integrity sha1-KVyGMqGKI+BUz1ydPOyv5ngWdgA=
+  version "3.12.2"
+  resolved "http://registry.npm.taobao.org/js-yaml/download/js-yaml-3.12.2.tgz#ef1d067c5a9d9cb65bd72f285b5d8105c77f14fc"
+  integrity sha1-7x0GfFqdnLZb1y8oW12BBcd/FPw=
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
@@ -3280,11 +3280,6 @@ jsprim@^1.2.2:
     extsprintf "1.3.0"
     json-schema "0.2.3"
     verror "1.10.0"
-
-keymirror@0.1.1:
-  version "0.1.1"
-  resolved "http://registry.npm.taobao.org/keymirror/download/keymirror-0.1.1.tgz#918889ea13f8d0a42e7c557250eee713adc95c35"
-  integrity sha1-kYiJ6hP40KQufFVyUO7nE63JXDU=
 
 kind-of@^1.1.0:
   version "1.1.0"
@@ -4634,16 +4629,6 @@ react-native-tab-view@^1.0.0, react-native-tab-view@^1.2.0:
   integrity sha1-xOQ6U43KzOFRk4dFzqCRdr7sy8M=
   dependencies:
     prop-types "^15.6.1"
-
-react-native-webview-bridge@^0.40.1:
-  version "0.40.1"
-  resolved "http://registry.npm.taobao.org/react-native-webview-bridge/download/react-native-webview-bridge-0.40.1.tgz#8a64a108c5687101e1da86e87fd707350a3f89fa"
-  integrity sha1-imShCMVocQHh2obof9cHNQo/ifo=
-  dependencies:
-    create-react-class "^15.6.0"
-    invariant "^2.2.2"
-    keymirror "0.1.1"
-    prop-types "^15.5.10"
 
 react-native-webview@^5.2.1:
   version "5.2.1"

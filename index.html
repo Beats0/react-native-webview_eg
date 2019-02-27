@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <p>react native ===> webView count: 0</p>
+      <p>(没有消息)</p>
+      <form>
+        <input type="file" name="pic" />
+      </form>
+
+      <button type="button">
+        给React Native发送消息
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+  var messagesReceivedFromReactNative = 0;
+
+  document.addEventListener('message', function(e) {
+    messagesReceivedFromReactNative += 1;
+    document.getElementsByTagName('p')[0].innerHTML =
+      '从React Native接收的消息: ' + messagesReceivedFromReactNative;
+    document.getElementsByTagName('p')[1].innerHTML = e.data;
+  });
+
+  document.getElementsByTagName('button')[0].addEventListener('click', function() {
+    window.postMessage('这是html发送到RN的消息')
+    // window.postMessage('这是html发送到RN的消息');
+    // window.ReactNativeWebView.postMessage('这是html发送到RN的消息')
+    // window.alert('11111')
+    // document.ReactNativeWebView.postMessage('这是html发送到RN的消息')
+  });
+
+
+  // window.addEventListener('message', ....)
+
+  function waitForBridge() {
+      //the react native postMessage has only 1 parameter
+      //while the default one has 2, so check the signature
+      //of the function
+      if (window.postMessage.length !== 1){
+        setTimeout(waitForBridge, 200);
+      }
+      else {
+        window.postMessage('abc');
+      }
+   }
+   
+   window.onload = waitForBridge;
+   
+</script>
+</body>
+</html>
